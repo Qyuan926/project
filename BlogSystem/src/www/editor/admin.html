@@ -1,0 +1,390 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <title>BLOG index with sidebar & slider  | Amaze UI Examples</title>
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-siteapp"/>
+  <link rel="icon" type="image/png" href="assets/i/favicon.png">
+  <meta name="mobile-web-app-capable" content="yes">
+  <link rel="icon" sizes="192x192" href="assets/i/app-icon72x72@2x.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="Amaze UI"/>
+  <link rel="apple-touch-icon-precomposed" href="assets/i/app-icon72x72@2x.png">
+  <meta name="msapplication-TileImage" content="assets/i/app-icon72x72@2x.png">
+  <meta name="msapplication-TileColor" content="#0e90d2">
+  <link rel="stylesheet" href="assets/css/amazeui.min.css">
+  <link rel="stylesheet" href="assets/css/app.css">
+  <link rel="stylesheet" href="editor/css/editormd.min.css" />
+
+  <link rel="stylesheet" href="editor/css/editormd.preview.css">
+
+  <meta charset="utf-8">
+  <title>Makes "field" required to be the same as #other</title>
+  <link rel="stylesheet" href="http://jqueryvalidation.org/files/demo/site-demos.css">
+
+  <script src="jquery-1.10.2.min.js"></script>
+
+  
+</head>
+
+<body id="blog">
+<div id="app">
+   <header class="am-g am-g-fixed blog-fixed blog-text-center blog-header">
+    <div class="am-u-sm-8 am-u-sm-centered">  
+        <h2 class="am-hide-sm-only">一个小书生的博客世界</h2>
+    </div>
+   </header>
+ <hr>
+   <!-- nav start -->
+   <nav class="am-g am-g-fixed blog-fixed blog-nav">
+  <button class="am-topbar-btn am-topbar-toggle am-btn am-btn-sm am-btn-success am-show-sm-only blog-button" data-am-collapse="{target: '#blog-collapse'}" ><span class="am-sr-only">导航切换</span> <span class="am-icon-bars"></span></button>
+
+   <div class="am-collapse am-topbar-collapse" id="blog-collapse">
+    <ul class="am-nav am-nav-pills am-topbar-nav">
+      <li class="am-active"><a href="index.html">首页</a></li>
+      <li class="am-active"><a href="tag.html">标签管理</a></li>
+      <li class="am-active"><a href="index.html">我的博客</a></li>
+      <li class="am-active"><a href="#" v-on:click="insert_blog()">创造博客</a></li>
+    </ul>
+    <form class="am-topbar-form am-topbar-right am-form-inline" role="search">
+      <div class="am-form-group">
+        <input type="text" class="am-form-field am-input-sm" placeholder="搜索">
+      </div>
+     </form>
+    </div>
+   </nav>
+  </hr>
+<!-- nav end -->
+
+<body>
+ 
+<!-- content srart -->
+ 
+<div class="am-g am-g-fixed blog-fixed" >
+    <div class="am-u-md-8 am-u-sm-12" v-show="page_flag==0">
+        <article class="am-g blog-entry-article" v-for="blog in blogs" v-if="tags.length>0 && users.length>0" >
+          
+            <div class="am-u-lg-6 am-u-md-12 am-u-sm-12 blog-entry-text" >
+                <span><a href="" class="blog-color">{{get_tagname_by_id(blog.tag_id)}}&nbsp;</a></span>
+                <span>@{{get_username_by_id(blog.user_id)}}</span>
+                <span>{{blog.last_post_time}}</span>
+                <h1><a  v-on:click="show_blog(blog)">{{blog.title}}</a></h1> 
+                <p><a href="" class="blog-continue">continue</a></p>
+                <button type="button" class="am-btn am-btn-primary" v-on:click="editor_blog(blog)">编辑</button>
+                <button type="button" class="am-btn am-btn-danger" v-on:click="delete_blog(blog.blog_id)">删除</button>
+            </div>
+        </article>
+ <ul class="am-pagination">
+ <li class="am-pagination-prev"><a href="">&laquo; Prev</a></li>
+ <li class="am-pagination-next"><a href="">Next &raquo;</a></li>
+ </ul>
+</div>
+
+
+
+
+<div class="am-u-md-8 am-u-sm-12" v-show="page_flag==1">
+  <div v-if="title_flag==1">
+    标题：<input type="text" value="" id="texttitle" class="textClass" name="textName">
+  </div>
+  <div id="test-editormd-view"  >
+    <textarea  style="display:none;" name="test-editormd-markdown-doc" v-model="showed_blog.content"></textarea>               
+  </div>
+  <div>
+    <button type="button" class="am-btn am-btn-primary" v-on:click="update_blog()">提交</button>
+    <button type="button" class="am-btn am-btn-danger" v-on:click="back_list()">返回</button>
+  </div>>
+</div>>
+
+<div class="am-u-md-8 am-u-sm-12" v-show="page_flag==2">
+  <div>
+    标题：<input type="text" value="" id="inserttitle" class="textClass" name="textName">
+  </div>
+  <div id="insert-editormd-view"  >
+    <textarea  style="display:none;" name="test-editormd-markdown-doc" ></textarea>               
+  </div>
+  
+<select id="select" >
+  <option value="1" >jushiyige</option>
+</select> 
+  <div>
+    <button type="button" class="am-btn am-btn-primary" v-on:click="commit_blog()">提交</button>
+    <button type="button" class="am-btn am-btn-danger" v-on:click="back_list()">返回</button>
+  </div>>
+  
+</div>>
+
+
+
+      
+
+    <div class="am-u-md-4 am-u-sm-12 blog-sidebar" v-show="page_flag==0">
+        <div class="blog-sidebar-widget blog-bor">
+            <h2 class="blog-text-center blog-title"><span>作者简介</span></h2>
+            <img src="assets/i/f14.jpg" alt="about me" class="blog-entry-img" >
+            <p>{{author}}</p>
+            
+        </div>
+        <div class="blog-clear-margin blog-sidebar-widget blog-bor am-g " >
+          <h2 class="blog-title"><span>TAG cloud</span></h2>
+          <div class="am-u-sm-12 blog-clear-padding">
+          <a href="" class="blog-tag" v-for="tag in tags" >{{tag.tag_name}}</a>
+          </div>
+      </div>
+        
+    </div>
+</div>
+<!-- content end -->
+
+  <footer class="blog-footer">
+    <div class="am-g am-g-fixed blog-fixed am-u-sm-centered blog-footer-padding">  
+    </div>    
+    <div class="blog-text-center">© 生命的意义就是自我发展</div>    
+  </footer>
+</div>
+
+<!--[if (gte IE 9)|!(IE)]><!-->
+<!--script src="assets/js/jquery.min.js"></script>-->
+<script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
+<!--<![endif]-->
+<!--[if lte IE 8 ]>
+<script src="http://libs.baidu.com/jquery/1.11.3/jquery.min.js"></script>
+<script src="http://cdn.staticfile.org/modernizr/2.8.3/modernizr.js"></script>
+<script src="assets/js/amazeui.ie8polyfill.min.js"></script>
+<![endif]-->
+<script src="assets/js/amazeui.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue"></script>
+
+<script src="editor/lib/marked.min.js"></script>
+<script src="editor/lib/prettify.min.js"></script>       
+<script src="editor/lib/raphael.min.js"></script>
+<script src="editor/lib/underscore.min.js"></script>
+<script src="editor/lib/sequence-diagram.min.js"></script>
+<script src="editor/lib/flowchart.min.js"></script>
+<script src="editor/lib/jquery.flowchart.min.js"></script>
+<script src="editor/editormd.js"></script>
+
+<script src="editor/editormd.min.js"></script>
+
+
+<script>
+  var app = new Vue({
+    el: '#app',
+    data: {
+   
+      author:"书生",
+      
+      blogs:[],
+      tags:[],
+      users:[],
+      showed_blog:{
+        blog_id:null,
+        tag_id:null,
+        user_id:null,
+        title:null,
+        content:null
+      },
+     page_flag:0, //0:表示展示所有博客；1:表示编辑博客
+     title_flag:0
+    },
+      methods:{
+        get_all_blogs:function()
+        {
+          $.ajax({
+            url:"/blog",
+            type:"get",
+            context: this,
+            success:function(result,status){
+              this.blogs=result;
+            }
+          })
+        },
+        get_all_tags:function()
+        {
+          $.ajax({
+            url:"/tag",
+            type:"get",
+            context: this,
+            success:function(result,status){
+              this.tags=result;
+            }
+          })
+        },
+      get_tag_blog:function(tag_id)
+      {
+        $.ajax({
+            url:"/blog?tag_id="+tag_id,
+            type:"get",           
+            context: this,
+            success:function(result,status){
+              this.page_flag=0;
+              this.blogs=result;
+            }
+          })
+      },
+        get_all_users:function()
+        {
+          $.ajax({
+            url:"/user",
+            type:"get",
+            context: this,
+            success:function(result,status){
+              this.users=result;
+            }
+          })
+        },
+        get_tagname_by_id:function(tag_id)
+      {
+        for(var i=0;i<this.tags.length;++i)
+        {
+          if(this.tags[i].tag_id==tag_id)
+          {
+            return this.tags[i].tag_name;
+          }
+        }
+      },
+      get_username_by_id:function(user_id)
+      {
+        for(var i=0;i<this.users.length;++i)
+        {
+          if(this.users[i].user_id==user_id)
+          {
+            return this.users[i].user_name;
+          }
+        }
+      },
+      show_blog:function(blog)
+      {
+        this.page_flag=1;
+        this.showed_blog=blog;
+        
+        testEditormdView = editormd.markdownToHTML("test-editormd-view", {
+                        markdown        : blog.content ,//+ "\r\n" + $("#append-test").text(),
+                        //htmlDecode      : true,       // 开启 HTML 标签解析，为了安全性，默认不开启
+                        htmlDecode      : "style,script,iframe",  // you can filter tags decode
+                        //toc             : false,
+                        tocm            : true,    // Using [TOCM]
+                        //tocContainer    : "#custom-toc-container", // 自定义 ToC 容器层
+                        //gfm             : false,
+                        //tocDropdown     : true,
+                        // markdownSourceCode : true, // 是否保留 Markdown 源码，即是否删除保存源码的 Textarea 标签
+                        emoji           : true,
+                        taskList        : true,
+                        tex             : true,  // 默认不解析
+                        flowChart       : true,  // 默认不解析
+                        sequenceDiagram : true,  // 默认不解析
+                    });
+      },
+      delete_blog:function(blog_id)
+      {
+        $.ajax({
+            url:"/blog/"+blog_id,
+            type:"delete",
+            context: this,
+            success:function(result,status){
+              this.get_all_blogs();
+            }
+          })
+
+      },
+      editor_blog:function(blog)
+      {
+        this.title_flag=1;
+        this.showed_blog=blog;
+        this.page_flag=1;
+        testEditor = editormd("test-editormd-view", {
+                    width   : "90%",
+                    height  : 640,
+                    syncScrolling : "single",
+                    path    : "editor/lib/"
+                });
+      },
+      update_blog:function()
+      {
+        var title = $("#texttitle").val();
+        var content=testEditor.getMarkdown();
+        var body={
+          blog_id:this.showed_blog.blog_id,
+          user_id:this.showed_blog.user_id,
+          tag_id:this.showed_blog.tag_id,
+          title:title,
+          content:content
+        }
+        $.ajax({
+            url:"/blog/"+this.showed_blog.blog_id,
+            type:"put",
+            data:JSON.stringify(body),
+            context: this,
+            success:function(result,status){
+              this.page_flag=0;
+              this.get_all_blogs();
+            }
+          })
+      },
+      back_list:function()
+      {
+        this.page_flag=0;
+      },
+      insert_blog:function()
+      {
+        
+        this.page_flag=2;
+        insertEditor = editormd("insert-editormd-view", {
+                    width   : "90%",
+                    height  : 640,
+                    syncScrolling : "single",
+                    path    : "editor/lib/"
+                });
+      },
+      commit_blog:function()
+      {
+        var title = $("#inserttitle").val();
+        var content=insertEditor.getMarkdown();
+        var options=$("#select option:selected");
+        alert(options.val());
+        var body={
+          user_id:1,
+          tag_id:options.val(),
+          title:title,
+          content:content
+        }
+        $.ajax({
+            url:"/blog",
+            type:"post",
+            data:JSON.stringify(body),
+            context: this,
+            success:function(result,status){
+              this.page_flag=0;
+              this.get_all_blogs();
+            }
+          })
+
+      }
+       
+      }
+      
+      
+      
+   
+  });
+  app.get_all_tags();
+  app.get_all_users();
+  app.get_all_blogs();
+
+</script>
+
+		   
+ 
+
+
+
+</body>
+</html>
+

@@ -1,0 +1,339 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <title>极简</title>
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-siteapp"/>
+  <link rel="icon" type="image/png" href="assets/i/favicon.png">
+  <meta name="mobile-web-app-capable" content="yes">
+  <link rel="icon" sizes="192x192" href="assets/i/app-icon72x72@2x.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="Amaze UI"/>
+  <link rel="apple-touch-icon-precomposed" href="assets/i/app-icon72x72@2x.png">
+  <meta name="msapplication-TileImage" content="assets/i/app-icon72x72@2x.png">
+  <meta name="msapplication-TileColor" content="#0e90d2">
+  <link rel="stylesheet" href="assets/css/amazeui.min.css">
+  <link rel="stylesheet" href="assets/css/app.css">
+  <link rel="stylesheet" href="editor/css/editormd.min.css" />
+
+
+  <script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js">
+  </script> 
+
+  <link rel="stylesheet" href="editor/css/editormd.preview.css">
+
+  <meta charset="utf-8">
+  <title>Makes "field" required to be the same as #other</title>
+  <link rel="stylesheet" href="http://jqueryvalidation.org/files/demo/site-demos.css">
+</head>
+
+<body id="blog">
+<div id="app">
+   <header class="am-g am-g-fixed blog-fixed blog-text-center blog-header">
+    <div class="am-u-sm-8 am-u-sm-centered">  
+        <h2 class="am-hide-sm-only">Blog_极简，做任何我们想做的事情。</h2>
+    </div>
+   </header>
+ <hr>
+   <!-- nav start -->
+   <nav class="am-g am-g-fixed blog-fixed blog-nav">
+  <button class="am-topbar-btn am-topbar-toggle am-btn am-btn-sm am-btn-success am-show-sm-only blog-button" data-am-collapse="{target: '#blog-collapse'}" ><span class="am-sr-only">导航切换</span> <span class="am-icon-bars"></span></button>
+
+   <div class="am-collapse am-topbar-collapse" id="blog-collapse">
+    <ul class="am-nav am-nav-pills am-topbar-nav">
+      <li class="am-active"><a href="#" v-on:click="to_index()">首页</a></li>
+      <li class="am-active"><a href="#" v-on:click="to_tag()">标签管理</a></li>
+      <li class="am-active"><a href="#" v-on:click="to_admin()">我的博客</a></li>
+      <li class="am-active"><a href="#" v-on:click="insert_blog()">创造博客</a></li>
+      <li class="am-active"><a href="#" v-on:click="to_management()">用户管理</a></li>
+     
+      
+    </ul>
+    
+    </div>
+   </nav>
+  </hr>
+<!-- nav end -->
+
+<body>
+
+<!-- content srart -->
+
+ <div class="am-g am-g-fixed blog-fixed" >
+  <div class="am-u-md-8 am-u-sm-12" v-show="page_flag==0">
+    <h2 class="blog-title"></h2>
+    <article class="am-g blog-entry-article" v-for="tag in tags"  >
+          
+      <div class="am-u-lg-6 am-u-md-12 am-u-sm-12 blog-entry-text" >
+          <span><a href="" class="blog-color"> &nbsp;</a>{{tag.tag_name}}</span>
+          <button type="button" class="am-btn am-btn-danger"  v-on:click="delete_tag(tag)">删除</button>
+          <button type="button" class="am-btn am-btn-primary" v-on:click="update_tag(tag)">提交修改标签</button>
+      </div>
+  </article>
+    
+</div>
+
+<div class="am-u-md-4 am-u-sm-12 blog-sidebar" v-show="page_flag==0">
+  <h2 class="blog-title"><span>TAG </span></h2>
+<form>
+  <div>
+    新增标签：
+    <input type="text" value="" id="inserttag" class="textClass" name="textName">
+    
+  </div>        
+ <div>
+  <button type="button" class="am-btn am-btn-primary" v-on:click="commit_tag()">提交</button>
+ </div>
+ </form>
+
+  <form>
+    <div>
+      修改标签输入框：<input type="text" value="" id="editorttitle" class="textClass" name="textName">
+    </div>        
+  </form> 
+</div>
+
+<div class="am-u-md-8 am-u-sm-12" v-show="page_flag==2">
+  <div>
+    标题：<input type="text" value="" id="inserttitle" class="textClass" name="textName">
+  </div>
+  <div id="insert-editormd-view"  >
+    <textarea  style="display:none;" name="test-editormd-markdown-doc" ></textarea>               
+  </div>
+        <select id="select" class="configerSelect" >
+          
+          <option v-for="tag in tags" :value="tag.tag_id" >
+              {{tag.tag_name}}
+          </option>
+      </select>      
+  <div>
+    <button type="button" class="am-btn am-btn-primary" v-on:click="commit_blog()">提交</button>
+    <button type="button" class="am-btn am-btn-danger" v-on:click="back_list()">返回</button>
+  </div>
+  
+</div>
+
+<div class="am-g am-g-fixed blog-fixed" >
+    <div class="am-u-md-8 am-u-sm-12" >
+      
+        
+ <ul class="am-pagination">
+ <li class="am-pagination-prev"><a href="">&laquo; Prev</a></li>
+ <li class="am-pagination-next"><a href="">Next &raquo;</a></li>
+ </ul>
+</div>
+
+</div>
+<!-- content end -->
+
+  <footer class="blog-footer">
+    <div class="am-g am-g-fixed blog-fixed am-u-sm-centered blog-footer-padding">  
+    </div>    
+    <div class="blog-text-center">© 生命的意义就是自我发展</div>    
+  </footer>
+</div>
+
+<!--[if (gte IE 9)|!(IE)]><!-->
+<script src="assets/js/jquery.min.js"></script>
+<!--script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script-->
+<!--<![endif]-->
+<!--[if lte IE 8 ]>
+<script src="http://libs.baidu.com/jquery/1.11.3/jquery.min.js"></script>
+<script src="http://cdn.staticfile.org/modernizr/2.8.3/modernizr.js"></script>
+<script src="assets/js/amazeui.ie8polyfill.min.js"></script>
+<![endif]-->
+<script src="assets/js/amazeui.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue"></script>
+
+<script src="editor/lib/marked.min.js"></script>
+<script src="editor/lib/prettify.min.js"></script>       
+<script src="editor/lib/raphael.min.js"></script>
+<script src="editor/lib/underscore.min.js"></script>
+<script src="editor/lib/sequence-diagram.min.js"></script>
+<script src="editor/lib/flowchart.min.js"></script>
+<script src="editor/lib/jquery.flowchart.min.js"></script>
+<script src="editor/editormd.js"></script>
+
+<script src="editor/editormd.min.js"></script>
+
+
+<script>
+  var app = new Vue({
+    el: '#app',
+    data: {
+   
+      author:"书生",
+      
+      blogs:[],
+      tags:[],
+      users:[],
+      showed_blog:{
+        blog_id:null,
+        tag_id:null,
+        user_id:null,
+        title:null,
+        content:null
+      },
+     page_flag:0, //0:表示标签；1:表示编辑博客
+     showed_tag:{
+       tag_id:null,
+       tag_name:null
+     },
+     cur_user_id:null
+    },
+      methods:{
+      
+        get_all_user_tags:function()
+        {
+          this.page_flag=0;
+          $.ajax({
+            url:"/tag_user/"+this.cur_user_id,
+            type:"get",
+            context: this,
+            success:function(result,status){
+              this.tags=result;
+            }
+          })
+        },
+     
+        get_tagname_by_id:function(tag_id)
+      {
+        for(var i=0;i<this.tags.length;++i)
+        {
+          if(this.tags[i].tag_id==tag_id)
+          {
+            return this.tags[i].tag_name;
+          }
+        }
+      },
+      get_username_by_id:function(user_id)
+      {
+        for(var i=0;i<this.users.length;++i)
+        {
+          if(this.users[i].user_id==user_id)
+          {
+            return this.users[i].user_name;
+          }
+        }
+      },
+      delete_tag:function(tag)
+      {
+        var tag_id=tag.tag_id;
+        $.ajax({
+            url:"/tag/"+tag_id,
+            type:"delete",
+            context: this,
+            success:function(result,status){
+              this.get_all_user_tags();
+            }
+          })
+
+      },
+      update_tag:function(tag)
+      {
+        var tag_name = $("#editorttitle").val();
+        var body={
+          tag_name:tag_name
+        }
+        $.ajax({
+            url:"/tag/"+tag.tag_id,
+            type:"put",
+            data:JSON.stringify(body),
+            context: this,
+            success:function(result,status){
+              
+              this.get_all_user_tags();
+            }
+          })
+          this.page_flag=0;
+      },
+      commit_tag:function()
+      {
+        var tag_name = $("#inserttag").val();
+        var body={
+          user_id:this.cur_user_id,
+          tag_name:tag_name
+        }
+        
+        $.ajax({
+            url:"/tag",
+            type:"post",
+            data:JSON.stringify(body),
+            context: this,
+            success:function(result,status){
+              this.get_all_user_tags();
+              
+            }
+          })
+
+      },
+      get_user:function()
+      {
+        function getQueryVariable(variable) {        
+            var query = window.location.search.substring(1);        
+            var vars = query.split("&");        
+            for (var i = 0; i < vars.length; i++) 
+            {            
+              var pair = vars[i].split("=");            
+              if (pair[0] == variable) { return pair[1]; }        
+              }        
+              return (false);    
+           }    
+          let  id= getQueryVariable('user_id');
+          this.cur_user_id=id;
+      },
+      to_tag:function()
+      {
+        window.location.href = "tag.html?user_id="+this.cur_user_id;
+      },
+      to_admin:function()
+      {
+        window.location.href = "admin.html?user_id="+this.cur_user_id;
+      },
+      to_index:function()
+      {
+        window.location.href = "adminIndex_.html?user_id="+this.cur_user_id;
+      },
+      to_management:function()
+      {
+        window.location.href = "management.html?user_id="+this.cur_user_id;
+      },
+      insert_blog:function()
+      {
+        
+        this.page_flag=2;
+        insertEditor = editormd("insert-editormd-view", {
+                    width   : "90%",
+                    height  : 640,
+                    syncScrolling : "single",
+                    path    : "editor/lib/"
+                });
+      }
+ 
+ 
+       
+      }
+      
+      
+      
+   
+  });
+  
+  app.get_user();
+  app.get_all_user_tags();
+  
+
+</script>
+
+
+
+</body>
+</html>
+

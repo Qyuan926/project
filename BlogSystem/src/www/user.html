@@ -1,0 +1,156 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <title>简单的笔记、愉悦的心情</title>
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-siteapp"/>
+  <link rel="icon" type="image/png" href="assets/i/favicon.png">
+  <meta name="mobile-web-app-capable" content="yes">
+  <link rel="icon" sizes="192x192" href="assets/i/app-icon72x72@2x.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="Amaze UI"/>
+  <link rel="apple-touch-icon-precomposed" href="assets/i/app-icon72x72@2x.png">
+  <meta name="msapplication-TileImage" content="assets/i/app-icon72x72@2x.png">
+  <meta name="msapplication-TileColor" content="#0e90d2">
+  <link rel="stylesheet" href="assets/css/amazeui.min.css">
+  <link rel="stylesheet" href="assets/css/app.css">
+  <link rel="stylesheet" href="editor/css/editormd.min.css" />
+
+  <link rel="stylesheet" href="editor/css/editormd.preview.css">
+
+  <meta charset="utf-8">
+  <title>Makes "field" required to be the same as #other</title>
+  <link rel="stylesheet" href="http://jqueryvalidation.org/files/demo/site-demos.css">
+
+  
+</head>
+
+<body id="blog">
+<div id="app">
+   <header class="am-g am-g-fixed blog-fixed blog-text-center blog-header">
+    <div class="am-u-sm-8 am-u-sm-centered">  
+        <h2 class="am-hide-sm-only">简易博客</h2>
+    </div>
+   </header>
+ <hr>
+   <!-- nav start -->
+   <nav class="am-g am-g-fixed blog-fixed blog-nav">
+  <button class="am-topbar-btn am-topbar-toggle am-btn am-btn-sm am-btn-success am-show-sm-only blog-button" data-am-collapse="{target: '#blog-collapse'}" ><span class="am-sr-only">导航切换</span> <span class="am-icon-bars"></span></button>
+
+   <div class="am-collapse am-topbar-collapse" id="blog-collapse">
+    <ul class="am-nav am-nav-pills am-topbar-nav">
+      <li class="am-active"><a href="index.html">首页</a></li>
+    </ul>
+    <form class="am-topbar-form am-topbar-right am-form-inline" role="search">
+      <div class="am-form-group">
+        <input type="text" class="am-form-field am-input-sm" placeholder="搜索">
+      </div>
+     </form>
+    </div>
+   </nav>
+  </hr>
+<!-- nav end -->
+
+<body>
+  
+      
+  <form style=" text-align:center " >
+    <h2>欢迎注册简易博客账号</h2>
+    
+   <p>
+    用户名称：          <input type="text" value="" id="textname" class="textClass" name="textName">
+   </p>
+   <p>
+    登录密码：<input type="text" value="" id="textpass" class="textClass" name="textName">
+   </p>
+   <button type="button" class="am-btn am-btn-primary" v-on:click="add_user()">提交</button>
+   
+  </form>
+   
+  <footer class="blog-footer">
+    <div class="am-g am-g-fixed blog-fixed am-u-sm-centered blog-footer-padding">  
+    </div>    
+    <div class="blog-text-center">© 生命的意义就是自我发展</div>    
+  </footer>
+</div>
+
+<!--[if (gte IE 9)|!(IE)]><!-->
+<!--script src="assets/js/jquery.min.js"></script>-->
+<script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
+<!--<![endif]-->
+<!--[if lte IE 8 ]>
+<script src="http://libs.baidu.com/jquery/1.11.3/jquery.min.js"></script>
+<script src="http://cdn.staticfile.org/modernizr/2.8.3/modernizr.js"></script>
+<script src="assets/js/amazeui.ie8polyfill.min.js"></script>
+<![endif]-->
+<script src="assets/js/amazeui.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue"></script>
+
+<script src="editor/lib/marked.min.js"></script>
+<script src="editor/lib/prettify.min.js"></script>       
+<script src="editor/lib/raphael.min.js"></script>
+<script src="editor/lib/underscore.min.js"></script>
+<script src="editor/lib/sequence-diagram.min.js"></script>
+<script src="editor/lib/flowchart.min.js"></script>
+<script src="editor/lib/jquery.flowchart.min.js"></script>
+<script src="editor/editormd.js"></script>
+
+<script src="editor/editormd.min.js"></script>
+
+
+<script>
+var app = new Vue({
+  el: '#app',
+  data: {
+     user_name:null,
+     user_password:null
+  },
+    methods:{
+    
+add_user:function()
+{
+  var name = $("#textname").val()
+  var pass = $("#textpass").val()
+  var body={
+         user_name:name,
+         user_password:pass
+        }
+  $.ajax({
+      url:"/user",
+      type:"post",
+      data:JSON.stringify(body),
+      context: this,
+      beforeSend: function(jqXHR, settings) {
+
+    },
+      success:function(result,status){
+        if(status=="success")
+        {
+          alert("注册成功"+status);
+          window.location.href = "login.html";
+        }
+        
+      },
+      error: function(jqXHR, textStatus, errorThrown) {
+                    //充当catch(e)的角色
+                    alert("注册失败！请重新填写账号和名称");
+                }
+    })
+
+}
+}
+});
+</script>
+
+
+
+</body>
+</html>
+
